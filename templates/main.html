@@ -1,0 +1,158 @@
+<html>
+
+<head>
+
+
+    <!--LOAD PRE-REQUISITES FOR GOOGLE SIGN IN -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
+</script>
+ 
+<script src="//apis.google.com/js/platform.js?onload=start"> </script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+<link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}"> 
+ <!-- END PRE-REQUISITES FOR GOOGLE SIGN IN -->
+
+
+</head>
+
+<body>
+
+
+        <div class="container-fluid">
+                <header class="row">
+                    <!-- logo -->
+                    <div class="col">
+                        <img class="profile-picture" src="{{ url_for('static', filename='profile.gif') }}" alt="profile picture">
+                        <br>
+                        <h2> My Bookshelf </h2>
+                    </div>
+                    <!-- Title  -->
+                    <div class="col title" id="signinButton">
+                        <span class="g-signin"
+                            data-scope="openid email"
+                            data-clientid="107103375897-ehnjmho06cf72j4ufe3n148rqt2aq85t.apps.googleusercontent.com"
+                            data-redirecturi="postmessage"
+                            data-accesstype="offline"
+                            data-cookiepolicy="single_host_origin"
+                            data-callback="signInCallback"
+                            data-approvalprompt="force">
+                        </span>
+                    </div>
+                </header>
+                <hr class ="line">
+        </div>
+
+        <div id="result"></div>
+
+        <div class="container-fluid ">
+                <header class="row">
+                    <!-- logo -->
+                    <div class="col ">
+                        <img class="banner" src="{{ url_for('static', filename='banner.png') }}" alt="profile picture">
+                    </div>
+        </div>
+
+
+<section class="container-fluid">
+
+    <div class="row ">
+        <div class="col">
+            <h1 class="section-title"> categories</h1>
+            <ul class="list-group">
+
+                    {% for i in categories %}
+                    
+                    
+                    
+                    <div>
+                    
+                    <li class="list-group-item"> <a href= '{{url_for('category', category_id=i.id)}}' >{{i.name}}{{i.id}}</a> </li>
+                    
+                    
+                    </div>
+                    
+                    
+                    {% endfor %}
+                    
+                    </ul>
+
+        </div>
+
+        <div class="col">
+
+                {% if cat_id == 0 %}
+                <h2 class="section-title"> Recently added books </h2>
+                {% else %}
+                {{cat_id}}}
+                <a href= '{{url_for('newItem', category_id=cat_id)}}' > add books </a>
+                {% endif %}
+
+            <ul class="list-group">
+    
+                    {% for i in items %}
+
+                        <div>
+
+                            <li class="list-group-item"><a href= '{{url_for('item', item_id=i.id )}}' >{{i.name}}{{i.id}}</a></li>
+
+
+
+                        </div>  
+
+
+                    {% endfor %}
+                        
+            </ul>
+    
+        </div>
+    </div>
+
+</section>
+
+
+
+
+
+<script>
+        function signInCallback(authResult) {
+          if (authResult['code']) {
+        
+            // Hide the sign-in button now that the user is authorized
+            $('#signinButton').attr('style', 'display: none');
+        
+            // Send the one-time-use code to the server, if the server responds, write a 'login successful' message to the web page and then redirect back to the main restaurants page
+            $.ajax({
+              type: 'POST',
+              url: '/gconnect?state={{STATE}}',
+              processData: false,
+              data: authResult['code'],
+              contentType: 'application/octet-stream; charset=utf-8',
+              success: function(result) {
+                // Handle or verify the server response if necessary.
+                if (result) {
+                  $('#result').html('Login Successful!</br>'+ result + '</br>Redirecting...')
+                 setTimeout(function() {
+                  window.location.href = "/restaurant";
+                 }, 4000);
+                  
+        
+              } else if (authResult['error']) {
+        
+            console.log('There was an error: ' + authResult['error']);
+          } else {
+                $('#result').html('Failed to make a server-side call. Check your configuration and console.');
+                 }
+        
+              }
+              
+          }); } }
+        </script>
+
+
+</body>
+
+</html>

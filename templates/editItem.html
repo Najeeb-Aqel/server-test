@@ -1,0 +1,75 @@
+<html>
+
+        <head>
+
+                <!--LOAD PRE-REQUISITES FOR GOOGLE SIGN IN -->
+               <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
+               </script>
+                            
+               <script src="//apis.google.com/js/platform.js?onload=start"> </script>
+                           
+               <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+               <meta charset="UTF-8">
+               <meta http-equiv="X-UA-Compatible" content="ie=edge">
+               <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+               <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}"> 
+               <!-- END PRE-REQUISITES FOR GOOGLE SIGN IN -->
+                           
+           </head>
+           
+           <body>
+           
+                   <div class="container-fluid">
+                           <header class="row">
+                               <!-- logo -->
+                               <div class="col">
+                                   <img class="profile-picture" src="{{ url_for('static', filename='profile.gif') }}" alt="profile picture">
+                                   <br>
+                                   <h2> My Bookshelf </h2>
+                               </div>
+                               <!-- Title  -->
+                               <div class="col title" id="signinButton">
+                                   <span class="g-signin"
+                                       data-scope="openid email"
+                                       data-clientid="107103375897-ehnjmho06cf72j4ufe3n148rqt2aq85t.apps.googleusercontent.com"
+                                       data-redirecturi="postmessage"
+                                       data-accesstype="offline"
+                                       data-cookiepolicy="single_host_origin"
+                                       data-callback="signInCallback"
+                                       data-approvalprompt="force">
+                                   </span>
+                               </div>
+                           </header>
+                           <hr class ="line">
+                   </div>
+           
+                   <div id="result"></div>
+
+<section class="container-fluid">
+<div class="row">
+
+<div class="col">
+<h1> edit book </h1>
+
+<form action="{{ url_for('editItem', category_id=category_id , item_id=id)}}" method = 'post'>
+
+        <dl>
+            <dt>Name:</dt>
+                <dd><input type ='text' size='30' name='name' required></dd>
+                    <dt>Description:</dt>
+                                <dd><textarea name = 'description' rows='5' cols='40' required></textarea></dd>
+                    
+        </dl>
+        
+        
+        <input type='submit' value='Create'>
+        
+        </form>
+        </div>
+    </div>
+
+</section>
+
+</body>
+
+</html>

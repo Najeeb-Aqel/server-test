@@ -1,0 +1,26 @@
+<html>
+
+<body>
+
+
+<h1> add book </h1>
+
+<form action="{{ url_for('newItem', category_id=category_id )}}" method = 'post'>
+
+        <dl>
+            <dt>Name:</dt>
+                <dd><input type ='text' size='30' name='name' required></dd>
+                    <dt>Description:</dt>
+                                <dd><textarea name = 'description' rows='5' cols='40' required></textarea></dd>
+                    
+        </dl>
+        
+        
+        <input type='submit' value='Create'>
+        
+        </form>
+
+
+</body>
+
+</html>
