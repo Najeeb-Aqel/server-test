@@ -25,7 +25,6 @@ class Item(Base):
     category = relationship(Category)
 
 
-engine = create_engine('sqlite:///catalog.db')
-
+engine = create_engine('postgresql://catalog:PASSWORD@localhost/catalog')
 
 Base.metadata.create_all(engine)
